@@ -1,15 +1,32 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './app';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { renderRoutes } from "react-router-config";
 
-const render = App => ReactDOM.hydrate(<App />, document.getElementById('root'))
+import { getClientStore } from "./store";
+import routes from "./routes";
 
-if (process.env.NODE_ENV === 'development' && module.hot) {
-  module.hot.accept('./app.js', () => {
-    // eslint-disable-next-line global-require
-    const App = require('./app').default // eslint-ignore-line
-    render(App)
-  })
+const store = getClientStore();
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <>{renderRoutes(routes)}</>
+      </BrowserRouter>
+    </Provider>
+  );
+};
+
+const render = (App) =>
+  ReactDOM.hydrate(<App />, document.getElementById("root"));
+
+if (process.env.NODE_ENV === "development" && module.hot) {
+  module.hot.accept("./app.js", () => {
+    const App = require("./app").default;
+    render(App);
+  });
 }
 
-render(App)
+render(App);

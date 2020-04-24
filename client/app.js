@@ -1,22 +1,13 @@
-import React from 'react'
-import { Provider } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { renderRoutes } from 'react-router-config';
-import routes from './routes';
-import { getClientStore } from './store';
+import React from "react";
+import { renderRoutes } from "react-router-config";
 
-const store = getClientStore();
-
-const App = () => {
+const App = (props) => {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <div>
-          {renderRoutes(routes)}
-        </div>
-      </BrowserRouter>
-    </Provider>
-  )
-}
+    <div>
+      <header>我是标题</header>
+      {renderRoutes(props.route.routes)}
+    </div>
+  );
+};
 
 export default App;
