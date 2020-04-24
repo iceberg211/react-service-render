@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const WriteFilePlugin = require('write-file-webpack-plugin') 
+const WriteFilePlugin = require('write-file-webpack-plugin')
 
 const dist = path.join(__dirname, '../dist')
 

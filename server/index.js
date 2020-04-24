@@ -4,7 +4,6 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
 const noFavicon = require('express-no-favicons')
-
 const clientConfig = require('../webpack/client.dev')
 const serverConfig = require('../webpack/server.dev')
 
@@ -12,8 +11,8 @@ const { publicPath } = clientConfig.output
 
 let isBuilt = false;
 const app = express();
-app.use(noFavicon());
 
+app.use(noFavicon());
 app.use(express.static('public'));
 
 const DEV = true;
@@ -26,11 +25,8 @@ const done = () => !isBuilt
 
 
 
-// if (DEV) {
 const compiler = webpack([clientConfig, serverConfig]);
 const clientCompiler = compiler.compilers[0];
-// console.log(publicPath);
-
 const options = { publicPath, stats: { colors: true } }
 const devMiddleware = webpackDevMiddleware(compiler, options)
 
@@ -39,15 +35,3 @@ app.use(webpackHotMiddleware(clientCompiler))
 app.use(webpackHotServerMiddleware(compiler))
 
 devMiddleware.waitUntilValid(done)
-// }
-// else {
-//   webpack([clientConfigProd, serverConfigProd]).run((err, stats) => {
-//     const clientStats = stats.toJson().children[0]
-//     const serverRender = require('../buildServer/main.js').default
-
-//     app.use(publicPath, express.static(outputPath))
-//     app.use(serverRender({ clientStats }))
-
-//     done()
-//   })
-// }

@@ -1,13 +1,22 @@
 import React from 'react'
-import { hot, setConfig } from 'react-hot-loader';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { renderRoutes } from 'react-router-config';
+import routes from './routes';
+import { getClientStore } from './store';
 
+const store = getClientStore();
 
-function App() {
+const App = () => {
   return (
-    <div>
-      App,hha
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <div>
+          {renderRoutes(routes)}
+        </div>
+      </BrowserRouter>
+    </Provider>
   )
 }
 
-export default hot(module)(App);
+export default App;

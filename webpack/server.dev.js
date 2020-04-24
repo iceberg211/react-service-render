@@ -1,7 +1,7 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack')
-// const WriteFilePlugin = require('write-file-webpack-plugin') // 
+const WriteFilePlugin = require('write-file-webpack-plugin') // 
 
 const res = p => path.resolve(__dirname, p)
 const entry = res('../server/render')
@@ -28,7 +28,7 @@ const serverConfig = {
   },
   externals: [nodeExternals()],
   plugins: [
-    // new WriteFilePlugin(),
+    new WriteFilePlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
