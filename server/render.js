@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/server";
+import { renderToString } from "react-dom/server";
 import renderApp from "../client/server";
 import { getStore } from "../client/store";
 import { matchRoutes } from "react-router-config";
@@ -39,7 +39,7 @@ export default function serverRenderer() {
     Promise.all(promises).then(() => {
       const context = { css: [] };
       const App = renderApp(req, store, {});
-      const html = createMakeUp(App);
+      const html = createMakeUp(renderToString(App));
 
       if (context.action === "REPLACE") {
         res.redirect(301, context.url);
