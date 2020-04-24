@@ -14,6 +14,8 @@ let isBuilt = false;
 const app = express();
 app.use(noFavicon());
 
+app.use(express.static('public'));
+
 const DEV = true;
 
 const done = () => !isBuilt
@@ -26,7 +28,9 @@ const done = () => !isBuilt
 
 // if (DEV) {
 const compiler = webpack([clientConfig, serverConfig]);
-const clientCompiler = compiler.compilers[0]
+const clientCompiler = compiler.compilers[0];
+// console.log(publicPath);
+
 const options = { publicPath, stats: { colors: true } }
 const devMiddleware = webpackDevMiddleware(compiler, options)
 
