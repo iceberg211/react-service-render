@@ -1,3 +1,4 @@
+import React from "react";
 import App from "./app";
 import Home from "./containers/a";
 import Translation from "./containers/b";
@@ -18,7 +19,6 @@ export default [
       {
         path: "/b",
         component: Translation,
-        loadData: Translation.loadData,
         exact: true,
         key: "translation",
       },
