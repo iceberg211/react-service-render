@@ -1,10 +1,11 @@
 import { hot } from "react-hot-loader/root";
 import React from "react";
 import { renderRoutes } from "react-router-config";
+import styles from "./css/app";
 
 const App = (props) => {
   return (
-    <div className="box">
+    <div className={styles.box}>
       <header>header</header>
       {renderRoutes(props.route.routes)}
       <header onClick={() => console.log("console")}>header</header>

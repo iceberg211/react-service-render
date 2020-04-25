@@ -1,8 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
-const WriteFilePlugin = require("write-file-webpack-plugin");
-
-const dist = path.join(__dirname, "../dist");
+const WriteFilePlugin = require("write-file-webpack-plugin"); // here so you can see what chunks are built
+const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 
 module.exports = {
   name: "client",
@@ -12,11 +11,13 @@ module.exports = {
   entry: [
     "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false",
     "react-hot-loader/patch",
-    path.resolve(__dirname, "../client/index.js"),
+    path.resolve(__dirname, "../client"),
   ],
   output: {
-    filename: "client.js",
-    path: dist,
+    filename: "[name].js",
+    chunkFilename: "[name].chunk.js",
+    path: path.resolve(__dirname, "../buildClient"),
+    publicPath: "/static/",
   },
   cache: false,
   module: {
@@ -27,8 +28,26 @@ module.exports = {
         use: "babel-loader",
       },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        test: /\.styl$/,
+        use: [
+          {
+            loader: ExtractCssChunks.loader,
+            options: {
+              hot: true,
+              reloadAll: true,
+            },
+          },
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+              localIdentName: "[name]__[local]--[hash:base64:5]",
+            },
+          },
+          {
+            loader: "stylus-loader",
+          },
+        ],
       },
     ],
   },
@@ -36,7 +55,8 @@ module.exports = {
     extensions: [".js", ".css", ".styl"],
   },
   plugins: [
-    new WriteFilePlugin(),
+    // new WriteFilePlugin(),
+    new ExtractCssChunks(),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
