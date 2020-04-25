@@ -12,9 +12,7 @@ const store = getClientStore();
 const App = () => {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <>{renderRoutes(routes)}</>
-      </BrowserRouter>
+      <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>
     </Provider>
   );
 };

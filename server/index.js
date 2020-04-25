@@ -4,6 +4,7 @@ const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const webpackHotServerMiddleware = require("webpack-hot-server-middleware");
 const noFavicon = require("express-no-favicons");
+
 const clientConfig = require("../webpack/client.dev");
 const serverConfig = require("../webpack/server.dev");
 
