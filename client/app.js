@@ -1,7 +1,7 @@
 import { hot } from "react-hot-loader/root";
 import React from "react";
 import { renderRoutes } from "react-router-config";
-import styles from "./css/app";
+import styles from "./app.styl";
 
 const App = (props) => {
   return (

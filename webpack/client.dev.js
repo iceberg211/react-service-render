@@ -52,7 +52,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".js", ".css", ".styl"],
+    extensions: [".js", ".css"],
   },
   plugins: [
     // new WriteFilePlugin(),
