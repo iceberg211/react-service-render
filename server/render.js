@@ -5,17 +5,24 @@ import flushChunks from "webpack-flush-chunks";
 import renderApp from "../client/server";
 import { getStore } from "../client/store";
 import { matchRoutes } from "react-router-config";
+import { Helmet } from 'react-helmet';
 import routes from "../client/routes";
 
-const createMakeUp = (html, style, js) => `
+const createMakeUp = (html, style, js, helmet, store) => `
   <!doctype html>
     <html>
     <head>
-      <title>App</title>
-      ${style.toString()}
+      ${helmet.title.toString()}
+      ${helmet.meta.toString()}
+      ${style}
     </head>
     <body>
     <div id="root">${html}</div>
+    <script>
+      window.context = {
+        state: ${JSON.stringify(store.getState())}
+      }
+    </script>
     ${js}
     </body>
 </html>
@@ -32,15 +39,18 @@ export default function serverRenderer({ clientStats }) {
     });
 
 
+
     // 根据路由的路径，来往store里面加数据
     const matchedRoutes = matchRoutes(routes, req.path);
     // 让matchRoutes里面所有的组件，对应的loadData方法执行一次
     const promises = [];
 
+
     matchedRoutes.forEach((item) => {
-      if (item.route.loadData) {
+      const fn = item.route.component.getInitialProps;
+      if (fn) {
         const promise = new Promise((resolve, reject) => {
-          item.route.loadData(store).then(resolve).catch(resolve);
+          fn(store, req, res).then(resolve).catch(resolve);
         });
         promises.push(promise);
       }
@@ -48,8 +58,15 @@ export default function serverRenderer({ clientStats }) {
 
     Promise.all(promises).then(() => {
       const context = { css: [] };
+
+      // 通过server入口文件那个到App组件
       const App = renderApp(req, store, {});
-      const html = createMakeUp(renderToString(App), styles, js);
+
+      //拿到helmet对象，然后在html字符串中引入
+      const helmet = Helmet.renderStatic();
+
+
+      const html = createMakeUp(renderToString(App), styles, js, helmet, store);
 
       if (context.action === "REPLACE") {
         res.redirect(301, context.url);

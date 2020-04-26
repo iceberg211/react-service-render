@@ -11,19 +11,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.8.7",
     "express": "^4.17.1",
     "express-no-favicons": "^0.0.1",
     "history": "^4.10.1",
     "loadable-components": "^2.2.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-helmet": "^6.0.0",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.1.2",
     "react-universal-component": "^4.0.1",
-    "webpack-flush-chunks": "^2.0.3",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "webpack-flush-chunks": "^2.0.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -32,6 +34,7 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "babel-loader": "^8.1.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-plugin-universal-import": "^4.0.2",
     "cross-env": "^7.0.2",
     "css-loader": "^2.1.1",
