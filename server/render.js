@@ -28,7 +28,7 @@ const createMakeUp = (html, style, js, helmet, store) => `
 </html>
   `;
 
-export default function serverRenderer({ clientStats }) {
+export default async function serverRenderer({ clientStats }) {
   return (req, res) => {
     const store = getStore(req);
 
@@ -44,6 +44,7 @@ export default function serverRenderer({ clientStats }) {
     const matchedRoutes = matchRoutes(routes, req.path);
     // 让matchRoutes里面所有的组件，对应的loadData方法执行一次
     const promises = [];
+
     matchedRoutes.forEach((item) => {
       const fn = item.route.component.getInitialProps;
       if (fn) {

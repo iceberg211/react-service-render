@@ -25,13 +25,26 @@ const done = () =>
     console.log("BUILD COMPLETE -- Listening @ http://localhost:3000".magenta);
   });
 
-const compiler = webpack([clientConfig, serverConfig]);
-const clientCompiler = compiler.compilers[0];
-const options = { publicPath, stats: { colors: true } };
-const devMiddleware = webpackDevMiddleware(compiler, options);
 
-app.use(devMiddleware);
-app.use(webpackHotMiddleware(clientCompiler));
-app.use(webpackHotServerMiddleware(compiler));
+if (dev) {
+  const compiler = webpack([clientConfig, serverConfig]);
+  // 客户端webpackCompiler
+  const clientCompiler = compiler.compilers[0];
+  const options = { publicPath, stats: { colors: true } };
 
-devMiddleware.waitUntilValid(done);
+  // 使用中间件的形式去加载。
+  const devMiddleware = webpackDevMiddleware(compiler, options);
+
+  app.use(devMiddleware);
+
+  // 配置客户端热更新
+  app.use(webpackHotMiddleware(clientCompiler));
+
+  // 配置服务端热更新
+  app.use(webpackHotServerMiddleware(compiler));
+
+  devMiddleware.waitUntilValid(done);
+} else {
+  console.log('todo')
+}
+
