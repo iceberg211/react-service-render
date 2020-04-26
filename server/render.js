@@ -3,20 +3,36 @@ import { renderToString } from "react-dom/server";
 import { flushChunkNames } from "react-universal-component/server";
 import flushChunks from "webpack-flush-chunks";
 import renderApp from "../client/server";
+import { ServerStyleSheets, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { getStore } from "../client/store";
 import { matchRoutes } from "react-router-config";
 import { Helmet } from 'react-helmet';
 import routes from "../client/routes";
+import red from '@material-ui/core/colors/red';
 
-const createMakeUp = (html, style, js, helmet, store) => `
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#556cd6',
+    },
+    secondary: {
+      main: '#19857b',
+    },
+    error: {
+      main: red.A400,
+    },
+    background: {
+      default: '#fff',
+    },
+  },
+});
+
+const createMakeUp = (html, style, js, helmet, store, material) => `
   <!doctype html>
     <html>
     <head>
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    ></link>
-
+    <style id="jss-server-side">${material}</style>
       ${helmet.title.toString()}
       ${helmet.meta.toString()}
       ${style}
@@ -43,6 +59,7 @@ export default function serverRenderer({ clientStats }) {
       chunkNames,
     });
 
+    const sheets = new ServerStyleSheets();
 
 
     // 根据路由的路径，来往store里面加数据
@@ -68,7 +85,15 @@ export default function serverRenderer({ clientStats }) {
 
       //拿到helmet对象，然后在html字符串中引入
       const helmet = Helmet.renderStatic();
-      const html = createMakeUp(renderToString(App), styles, js, helmet, store);
+
+      const markUp = renderToString(sheets.collect(
+        <ThemeProvider theme={theme}>
+          {App}
+        </ThemeProvider>))
+
+      const materialCss = sheets.toString();
+
+      const html = createMakeUp(markUp, styles, js, helmet, store, materialCss);
       if (context.action === "REPLACE") {
         res.redirect(301, context.url);
       } else if (context.NOT_FOUND) {
