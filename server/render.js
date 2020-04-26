@@ -12,6 +12,11 @@ const createMakeUp = (html, style, js, helmet, store) => `
   <!doctype html>
     <html>
     <head>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    ></link>
+
       ${helmet.title.toString()}
       ${helmet.meta.toString()}
       ${style}

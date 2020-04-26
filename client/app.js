@@ -27,24 +27,68 @@ const App = (props) => {
         <title>这是一个react 同构的demo</title>
         <meta name="description" content="这是一个react 同构的demo" />
       </Helmet>
-      <header className={styles.header}>
-        <ul>
-          <li>
-            <Link to="/">a</Link>
-          </li>
-          <li>
-            <Link to="/b">b</Link>
-          </li>
-          <li>
-            <Link to="/c">c</Link>
-          </li>
-        </ul>
-
+      <header>
+        <nav>
+          <div className="nav-wrapper">
+            <a href="#" className="brand-logo">ssr demo</a>
+            <ul id="nav-mobile" className="right hide-on-med-and-down">
+              <li>
+                <Link to="/">首页</Link>
+              </li>
+              <li>
+                <Link to="b">Sass</Link>
+              </li>
+              <li>
+                <Link to="/c">Components</Link>
+              </li>
+            </ul>
+          </div>
+        </nav>
       </header>
-      <div className={styles.box}>
-        {renderRoutes(props.route.routes)}
+
+
+
+
+      <div className="row" style={{ height: '80vh' }}>
+        <div className="col s12 m6">
+          <div className="card blue-grey">
+            <div className="card-content white-text">
+              <span className="card-title">页面</span>
+              {renderRoutes(props.route.routes)}
+            </div>
+          </div>
+        </div>
       </div>
-      <footer className={styles.footer} onClick={() => console.log("console")}>footer</footer>
+
+
+
+      <footer className="page-footer">
+        <div className="container">
+          <div className="row">
+            <div className="col l6 s12">
+              <h5 className="white-text">Footer Content</h5>
+              <p className="grey-text text-lighten-4">
+                You can use rows and columns here to organize your footer content.
+            </p>
+            </div>
+            <div className="col l4 offset-l2 s12">
+              <h5 className="white-text">Links</h5>
+              <ul>
+                <li><a className="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                <li><a className="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                <li><a className="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="footer-copyright">
+          <div className="container">
+            © 2020 Copyright Text
+          <a className="grey-text text-lighten-4 right" href="#!">More Links</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
@@ -65,7 +109,7 @@ App.getInitialProps = async ({ store, req, res }) => {
 
   let result = await fetchData();
 
-  console.log('getInitialPropsgetInitialPropsgetInitialPropsgetInitialProps', result)
+  console.log('getInitialPropsgetInitialPropsgetInitialPropsgetInitialProps', store)
   return result;
 }
 
