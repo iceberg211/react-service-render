@@ -7,6 +7,6 @@ export default function Home() {
 
   return (
     <div onClick={handlerClick}>
-      主页面
+      主页
     </div>);
 }

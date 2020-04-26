@@ -2,6 +2,7 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import App from "./app";
 import a from "./containers/a";
+import c from "./containers/c";
 
 export default [
   {
@@ -22,6 +23,12 @@ export default [
         }),
         exact: true,
         key: "b",
+      },
+      {
+        path: "/c",
+        component: c,
+        exact: true,
+        key: "c",
       },
     ],
   },

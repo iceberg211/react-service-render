@@ -1,6 +1,7 @@
 import { hot } from "react-hot-loader/root";
 import React from "react";
 import { Helmet } from 'react-helmet';
+import { Link } from "react-router-dom";
 import { renderRoutes } from "react-router-config";
 import styles from "./app.styl";
 
@@ -21,16 +22,29 @@ const data = [{
 
 const App = (props) => {
   return (
-    <div className={styles.box}>
+    <div>
       <Helmet>
         <title>这是一个react 同构的demo</title>
         <meta name="description" content="这是一个react 同构的demo" />
       </Helmet>
-      <header>header</header>
-      <div>
+      <header className={styles.header}>
+        <ul>
+          <li>
+            <Link to="/">a</Link>
+          </li>
+          <li>
+            <Link to="/b">b</Link>
+          </li>
+          <li>
+            <Link to="/c">c</Link>
+          </li>
+        </ul>
+
+      </header>
+      <div className={styles.box}>
         {renderRoutes(props.route.routes)}
       </div>
-      <footer onClick={() => console.log("console")}>footer</footer>
+      <footer className={styles.footer} onClick={() => console.log("console")}>footer</footer>
     </div>
   );
 };

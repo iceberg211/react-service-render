@@ -195,7 +195,7 @@ ReactDOM.render(
 
   使用`import { matchRoutes } from "react-router-config";` 来进行匹配。
 
-* 调用组件的数据预取方法得到数据
+- 调用组件的数据预取方法得到数据
 
   ```
     const matchedRoutes = matchRoutes(routes, req.path);
@@ -231,20 +231,71 @@ ReactDOM.render(
     });
   ```
 
+- 存在项，客户端的时候跳转执行getInitialProps 
+
 ## seo
 
 所谓 SEO(Search Engine Optimization)，指的是利用搜索引擎的规则提高网站在有关搜索引擎内的自然排名。现在的搜索引擎爬虫一般是全文分析的模式，分析内容涵盖了一个网站主要 3 个部分的内容:文本、多媒体(主要是图片)和外部链接，通过这些来判断网站的类型和主题。因此，在做 SEO 优化的时候，可以围绕这三个角度来展开。
 
 使用`react-helmet` 库
 
-
 # 工程构建流程
+
+- webpack 配置
 
 
 - hrm 热更新
 
-- 异步js加载问题
+```
+
+const express = require("express");
+const webpack = require("webpack");
+const webpackDevMiddleware = require("webpack-dev-middleware");
+const webpackHotMiddleware = require("webpack-hot-middleware");
+const webpackHotServerMiddleware = require("webpack-hot-server-middleware");
+const noFavicon = require("express-no-favicons");
+
+const clientConfig = require("../webpack/client.dev");
+const serverConfig = require("../webpack/server.dev");
+
+const { publicPath } = clientConfig.output;
+
+let isBuilt = false;
+const app = express();
+
+app.use(noFavicon());
+app.use(express.static("public"));
+
+const DEV = true;
+
+const done = () =>
+!isBuilt &&
+app.listen(3000, () => {
+isBuilt = true;
+console.log("BUILD COMPLETE -- Listening @ http://localhost:3000".magenta);
+});
+
+const compiler = webpack([clientConfig, serverConfig]);
+const clientCompiler = compiler.compilers[0];
+const options = { publicPath, stats: { colors: true } };
+const devMiddleware = webpackDevMiddleware(compiler, options);
+
+app.use(devMiddleware);
+app.use(webpackHotMiddleware(clientCompiler));
+app.use(webpackHotServerMiddleware(compiler));
+
+devMiddleware.waitUntilValid(done);
+
+```
+
+方法方式很多
+
+- 异步 js 加载问题
 
 - react ssr 下的路由分割
 
-- css样式
+- css 样式
+
+```
+
+```

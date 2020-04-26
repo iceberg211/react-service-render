@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development node server/index.js",
+    "dev": "cross-env NODE_ENV=development node server/index.js",
     "clean": "rimraf buildClient buildServer"
   },
   "author": "",
