@@ -28,7 +28,7 @@ const createMakeUp = (html, style, js, helmet, store) => `
 </html>
   `;
 
-export default async function serverRenderer({ clientStats }) {
+export default function serverRenderer({ clientStats }) {
   return (req, res) => {
     const store = getStore(req);
 

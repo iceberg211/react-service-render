@@ -30,7 +30,7 @@ module.exports = {
   devtool: "source-map",
   target: "node",
   mode: "development",
-  entry: ["regenerator-runtime/runtime.js", entry],
+  entry: ['@babel/polyfill', entry],
   externals,
   output: {
     path: output,

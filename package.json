@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node server/index.js",
-    "clean": "rimraf buildClient buildServer"
+    "clean": "rimraf buildClient buildServer",
+    "start": "npm run clean && cross-env NODE_ENV=production node server/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
+    "core-js": "^3.6.5",
     "express": "^4.17.1",
     "express-no-favicons": "^0.0.1",
     "history": "^4.10.1",
@@ -30,6 +32,7 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "babel-loader": "^8.1.0",
@@ -39,9 +42,11 @@
     "css-loader": "^2.1.1",
     "extract-css-chunks-webpack-plugin": "^4.7.4",
     "react-hot-loader": "^4.12.20",
+    "rimraf": "^3.0.2",
     "style-loader": "^1.2.0",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.43.0",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-hot-middleware": "^2.25.0",

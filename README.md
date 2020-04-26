@@ -519,3 +519,17 @@ const { js, styles, scripts, stylesheets } = flushChunks(clientStats, {
 
 其他方式，也是react-router官网文档进行的
 [推荐](https://loadable-components.com/docs/getting-started/ )
+
+
+
+## 生产环境配置
+
+对应的应该拥有一个独立的生产环境配置文件
+设置环境变量，区分开发和生产环境
+压缩js css资源，体积更小，提高下载速度
+js分包，基础库和业务代码分别打包，可以提高缓存利用率,提高页面渲染效率，节省用户流量
+为打包的bundle名称配置hash值,这样有利于发布和资源缓存
+生成资源映射表，用于服务端使用
+有独立的发布命令
+可以在本机运行生产环境 server，方便本地调试
+开发环境做相应的调整

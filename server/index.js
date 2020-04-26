@@ -4,19 +4,20 @@ const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const webpackHotServerMiddleware = require("webpack-hot-server-middleware");
 const noFavicon = require("express-no-favicons");
-
+const clientConfigProd = require('../webpack/client.prod')
+const serverConfigProd = require('../webpack/server.prod')
 const clientConfig = require("../webpack/client.dev");
 const serverConfig = require("../webpack/server.dev");
 
 const { publicPath } = clientConfig.output;
+const outputPath = clientConfig.output.path;
 
 let isBuilt = false;
 const app = express();
 
 app.use(noFavicon());
-app.use(express.static("public"));
 
-const DEV = true;
+const DEV = process.env.NODE_ENV === 'development'
 
 const done = () =>
   !isBuilt &&
@@ -26,7 +27,7 @@ const done = () =>
   });
 
 
-if (dev) {
+if (DEV) {
   const compiler = webpack([clientConfig, serverConfig]);
   // 客户端webpackCompiler
   const clientCompiler = compiler.compilers[0];
@@ -45,6 +46,17 @@ if (dev) {
 
   devMiddleware.waitUntilValid(done);
 } else {
-  console.log('todo')
+  webpack([clientConfigProd, serverConfigProd]).run((err, stats) => {
+    console.log('哈哈');
+
+    const clientStats = stats.toJson().children[0];
+    const serverRender = require('../buildServer/main.js').default
+
+    app.use(publicPath, express.static(outputPath))
+    app.use(serverRender({ clientStats }))
+
+    done()
+  })
 }
+
 
