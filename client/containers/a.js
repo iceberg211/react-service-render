@@ -5,5 +5,8 @@ export default function Home() {
     alert("一起来玩 react ssr 啊");
   };
 
-  return <div onClick={handlerClick}>主页面</div>;
+  return (
+    <div onClick={handlerClick}>
+      主页面
+    </div>);
 }

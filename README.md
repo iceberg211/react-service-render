@@ -18,9 +18,11 @@
 
   同构这个概念存在于 Vue，React 这些新型的前端框架中，同构实际上是客户端渲染和服务器端渲染的一个整合。我们把页面的展示内容和交互写在一起，让代码执行两次。在服务器端执行一次，用于实现服务器端渲染，在客户端再执行一次，用于接管页面交互。
 
-同构的最大优点是双端可以公用一套代码，但它是一把双刃剑，因为他还涉及到服务端，所以复杂性大大增加。
+  同构的最大优点是双端可以公用一套代码，但它是一把双刃剑，因为他还涉及到服务端，所以复杂性大大增加。
 
-另外双端也不是完全能公用一套代码，还需要做很多差异化的处理。不只是代码层面的，还会涉及到架构和工程化。
+  另外双端也不是完全能公用一套代码，还需要做很多差异化的处理。不只是代码层面的，还会涉及到架构和工程化。
+
+### 同构基础
 
 SSR 之所以能够实现，本质上是因为虚拟 DOM 的存在。
 
@@ -101,16 +103,16 @@ ReactDom.render(<App/>, document.querySelector('#root'))
 
 ```
 
-const App = () => {
-return
-<Provider store={store}>
-<StaticRouter location={req.path} context={context}>
-<div>
-<Route path='/' component={Home}>
-</div>
-</StaticRouter>
-</Provider>
-}
+  const App = () => {
+  return
+  <Provider store={store}>
+  <StaticRouter location={req.path} context={context}>
+  <div>
+  <Route path='/' component={Home}>
+  </div>
+  </StaticRouter>
+  </Provider>
+  }
 Return ReactDom.renderToString(<App/>)
 
 ```
@@ -160,7 +162,7 @@ http
     }
   })
   .listen(3000);
-And then the client:import ReactDOM from "react-dom";
+
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App.js";
@@ -175,23 +177,74 @@ ReactDOM.render(
 
 ```
 
-
 ## 数据同构
 
-在next.js中扩充了
+在 next.js 中扩充了 getInitialProps 方法，也是 next.js 中核心的方法。
 
+实现数据同构的一些思路:
 
+- 约定并为组件添加数据预取的静态方法
 
-## 引入redux
+另外我们约定所有页面组件内的数据预取方法为 getInitialProps,用于双端调用。
 
+- 在服务端查找到当前路由对应的组件
 
+  server 端接到客户端的请求，通过 req url path 来进行路由匹配，然后得到需要渲染的组件后调用数据预取方法。
+
+  路由如何匹配?
+
+  使用`import { matchRoutes } from "react-router-config";` 来进行匹配。
+
+* 调用组件的数据预取方法得到数据
+
+  ```
+    const matchedRoutes = matchRoutes(routes, req.path);
+    // 让matchRoutes里面所有的组件，对应的loadData方法执行一次
+    const promises = [];
+    matchedRoutes.forEach((item) => {
+      const fn = item.route.component.getInitialProps;
+      if (fn) {
+        const promise = new Promise((resolve, reject) => {
+          fn(store, req, res).then(resolve).catch(resolve);
+        });
+        promises.push(promise);
+      }
+    });
+
+    Promise.all(promises).then(() => {
+      const context = { css: [] };
+
+      // 通过server入口文件那个到App组件
+      const App = renderApp(req, store, {});
+
+      //拿到helmet对象，然后在html字符串中引入
+      const helmet = Helmet.renderStatic();
+      const html = createMakeUp(renderToString(App), styles, js, helmet, store);
+      if (context.action === "REPLACE") {
+        res.redirect(301, context.url);
+      } else if (context.NOT_FOUND) {
+        res.status(404);
+        res.send(html);
+      } else {
+        res.send(html);
+      }
+    });
+  ```
 
 ## seo
 
+所谓 SEO(Search Engine Optimization)，指的是利用搜索引擎的规则提高网站在有关搜索引擎内的自然排名。现在的搜索引擎爬虫一般是全文分析的模式，分析内容涵盖了一个网站主要 3 个部分的内容:文本、多媒体(主要是图片)和外部链接，通过这些来判断网站的类型和主题。因此，在做 SEO 优化的时候，可以围绕这三个角度来展开。
 
-所谓SEO(Search Engine Optimization)，指的是利用搜索引擎的规则提高网站在有关搜索引擎内的自然排名。现在的搜索引擎爬虫一般是全文分析的模式，分析内容涵盖了一个网站主要3个部分的内容:文本、多媒体(主要是图片)和外部链接，通过这些来判断网站的类型和主题。因此，在做SEO优化的时候，可以围绕这三个角度来展开。
-
-
-使用` react-helmet`
+使用`react-helmet` 库
 
 
+# 工程构建流程
+
+
+- hrm 热更新
+
+- 异步js加载问题
+
+- react ssr 下的路由分割
+
+- css样式

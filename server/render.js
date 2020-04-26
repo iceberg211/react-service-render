@@ -44,8 +44,6 @@ export default function serverRenderer({ clientStats }) {
     const matchedRoutes = matchRoutes(routes, req.path);
     // 让matchRoutes里面所有的组件，对应的loadData方法执行一次
     const promises = [];
-
-
     matchedRoutes.forEach((item) => {
       const fn = item.route.component.getInitialProps;
       if (fn) {
@@ -64,10 +62,7 @@ export default function serverRenderer({ clientStats }) {
 
       //拿到helmet对象，然后在html字符串中引入
       const helmet = Helmet.renderStatic();
-
-
       const html = createMakeUp(renderToString(App), styles, js, helmet, store);
-
       if (context.action === "REPLACE") {
         res.redirect(301, context.url);
       } else if (context.NOT_FOUND) {
