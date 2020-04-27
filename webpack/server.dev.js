@@ -65,6 +65,9 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".css"],
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
   },
   plugins: [
     // new WriteFilePlugin(),

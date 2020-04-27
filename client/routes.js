@@ -1,8 +1,8 @@
 import React from 'react';
-import Loadable from 'react-loadable';
 import App from "./app";
 import a from "./containers/a";
 import c from "./containers/c";
+import b from "./containers/b";
 
 export default [
   {
@@ -17,10 +17,7 @@ export default [
       },
       {
         path: "/b",
-        component: Loadable({
-          loader: () => import('./containers/b'),
-          loading: () => <span>loading</span>,
-        }),
+        component: b,
         exact: true,
         key: "b",
       },

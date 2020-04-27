@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function B() {
+export default function D() {
   return (
     <div>
-      C111
+      function
     </div>
   )
 }

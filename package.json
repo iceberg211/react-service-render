@@ -36,6 +36,7 @@
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
+    "@hot-loader/react-dom": "^16.13.0+4.12.20",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-plugin-universal-import": "^4.0.2",

@@ -1,9 +1,9 @@
-import { hot } from "react-hot-loader/root";
 import React from "react";
 import { Helmet } from 'react-helmet';
 import { Link } from "react-router-dom";
 import { renderRoutes } from "react-router-config";
 import styles from "./app.styl";
+import D from './containers/d';
 
 const data = [{
   "title": "深入浅出TypeScript：从基础知识到类型编程",
@@ -17,8 +17,7 @@ const data = [{
   "title": "预售JavaScript 设计模式核⼼原理与应⽤实践",
   "desc": "通俗易懂的编程“套路“学。带你深入看似高深实则接地气的设计模式原理，在实际场景中内化设计模式的”道“与”术“。学会驾驭代码，而非被其奴役。",
   "img": "https://user-gold-cdn.xitu.io/2019/9/16/16d382e623923d91?imageView2/1/w/200/h/280/q/95/format/webp/interlace/1"
-}
-]
+}];
 
 const App = (props) => {
   return (
@@ -45,10 +44,6 @@ const App = (props) => {
           </div>
         </nav>
       </header>
-
-
-
-
       <div className="row" style={{ height: '80vh' }}>
         <div className="col s12 m6">
           <div className="card blue-grey">
@@ -59,9 +54,7 @@ const App = (props) => {
           </div>
         </div>
       </div>
-
-
-
+      <D />
       <footer className="page-footer">
         <div className="container">
           <div className="row">
@@ -94,7 +87,7 @@ const App = (props) => {
 };
 
 
-App.getInitialProps = async ({ store, req, res }) => {
+App.getInitialProps = async (store, req, res) => {
   //模拟数据请求方法
   const fetchData = () => {
     return new Promise(resolve => {
@@ -109,8 +102,7 @@ App.getInitialProps = async ({ store, req, res }) => {
 
   let result = await fetchData();
 
-  console.log('getInitialPropsgetInitialPropsgetInitialPropsgetInitialProps', store)
   return result;
 }
 
-export default hot(App);
+export default App;
