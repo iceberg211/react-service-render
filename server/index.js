@@ -21,9 +21,9 @@ const DEV = process.env.NODE_ENV === 'development'
 
 const done = () =>
   !isBuilt &&
-  app.listen(3000, () => {
+  app.listen(4200, () => {
     isBuilt = true;
-    console.log("BUILD COMPLETE -- Listening @ http://localhost:3000".magenta);
+    console.log("BUILD COMPLETE -- Listening @ http://localhost:4200");
   });
 
 
@@ -47,8 +47,6 @@ if (DEV) {
   devMiddleware.waitUntilValid(done);
 } else {
   webpack([clientConfigProd, serverConfigProd]).run((err, stats) => {
-    console.log('哈哈');
-
     const clientStats = stats.toJson().children[0];
     const serverRender = require('../buildServer/main.js').default
 
