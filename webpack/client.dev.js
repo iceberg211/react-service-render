@@ -9,7 +9,7 @@ module.exports = {
   devtool: "inline-source-map",
   mode: "development",
   entry: [
-    "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false",
+    "webpack-hot-middleware/client?path=/__webpack_hmr",
     "react-hot-loader/patch",
     "@babel/polyfill",
     path.resolve(__dirname, "../client"),

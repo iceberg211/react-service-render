@@ -2,31 +2,12 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import { flushChunkNames } from "react-universal-component/server";
 import flushChunks from "webpack-flush-chunks";
+import { ServerStyleSheets } from '@material-ui/core/styles';
 import renderApp from "../client/server";
-import { ServerStyleSheets, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { getStore } from "../client/store";
 import { matchRoutes } from "react-router-config";
 import { Helmet } from 'react-helmet';
 import routes from "../client/routes";
-import red from '@material-ui/core/colors/red';
-
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#556cd6',
-    },
-    secondary: {
-      main: '#19857b',
-    },
-    error: {
-      main: red.A400,
-    },
-    background: {
-      default: '#fff',
-    },
-  },
-});
 
 const createMakeUp = (html, style, js, helmet, store, material) => `
   <!doctype html>
@@ -86,10 +67,7 @@ export default function serverRenderer({ clientStats }) {
       //拿到helmet对象，然后在html字符串中引入
       const helmet = Helmet.renderStatic();
 
-      const markUp = renderToString(sheets.collect(
-        <ThemeProvider theme={theme}>
-          {App}
-        </ThemeProvider>))
+      const markUp = renderToString(sheets.collect(App))
 
       const materialCss = sheets.toString();
 
