@@ -77,7 +77,8 @@ module.exports = {
     splitChunks: {
       cacheGroups: {
         libs: { // 抽离第三方库
-          test: /node_modules/, // 指定是node_modules下的第三方包
+          // 指定是node_modules下的第三方包
+          test: /node_modules/,
           chunks: 'initial',
           name: 'libs'// 打包后的文件名，任意命名
         }

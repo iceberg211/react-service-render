@@ -4,8 +4,8 @@ const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const webpackHotServerMiddleware = require("webpack-hot-server-middleware");
 const noFavicon = require("express-no-favicons");
-const clientConfigProd = require('../webpack/client.prod')
-const serverConfigProd = require('../webpack/server.prod')
+const clientConfigProd = require('../webpack/client.prod');
+const serverConfigProd = require('../webpack/server.prod');
 const clientConfig = require("../webpack/client.dev");
 const serverConfig = require("../webpack/server.dev");
 
@@ -48,12 +48,10 @@ if (DEV) {
 } else {
   webpack([clientConfigProd, serverConfigProd]).run((err, stats) => {
     const clientStats = stats.toJson().children[0];
-    const serverRender = require('../buildServer/main.js').default
-
+    const serverRender = require('../buildServer/main.js').default;
     app.use(publicPath, express.static(outputPath))
     app.use(serverRender({ clientStats }))
-
-    done()
+    done();
   })
 }
 

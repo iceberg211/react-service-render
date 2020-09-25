@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { hot } from 'react-hot-loader/root'
 import { BrowserRouter } from "react-router-dom";
@@ -10,15 +10,14 @@ import theme from './theme';
 
 const store = getClientStore();
 
-
-
 const App = () => {
-  React.useEffect(() => {
+  useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>

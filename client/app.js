@@ -27,7 +27,7 @@ App.getInitialProps = async (store, req, res) => {
 
   let result = await fetchData();
 
-  return result;
+  return { result };
 }
 
 export default App;

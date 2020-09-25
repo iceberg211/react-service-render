@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
-const WriteFilePlugin = require("write-file-webpack-plugin"); // here so you can see what chunks are built
+// here so you can see what chunks are built
+const WriteFilePlugin = require("write-file-webpack-plugin");
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 
 module.exports = {

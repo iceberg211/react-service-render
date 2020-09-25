@@ -52,26 +52,31 @@ export default function serverRenderer({ clientStats }) {
       const fn = item.route.component.getInitialProps;
       if (fn) {
         const promise = new Promise((resolve, reject) => {
-          fn(store, req, res).then(resolve).catch(resolve);
+          fn(store, req, res).then(resolve).catch(reject);
         });
         promises.push(promise);
       }
     });
 
-    Promise.all(promises).then(() => {
-      const context = { css: [] };
+    Promise.all(promises).then((result) => {
+      const context = {
+        css: [],
+        initialData: result
+      };
 
-      // 通过server入口文件那个到App组件
-      const App = renderApp(req, store, {});
 
       //拿到helmet对象，然后在html字符串中引入
       const helmet = Helmet.renderStatic();
-
-      const markUp = renderToString(sheets.collect(App))
-
       const materialCss = sheets.toString();
 
-      const html = createMakeUp(markUp, styles, js, helmet, store, materialCss);
+
+      // 通过server入口文件那个到App组件
+      const App = renderApp(req, store, context);
+      const markUp = renderToString(sheets.collect(App))
+
+
+      // 最终html
+      const html = createMakeUp(markUp, styles, js, helmet, store, materialCss, context);
       if (context.action === "REPLACE") {
         res.redirect(301, context.url);
       } else if (context.NOT_FOUND) {

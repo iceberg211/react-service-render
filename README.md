@@ -440,18 +440,17 @@ TDK
 
 具体的实现很简单，我们在全局配置文件内增加一个配置，用于表示渲染模式。
 
-我们目前是ssr模式，如果当前是csr 模式的话只需要返回一个空的html结构,然后向浏览器注入一个全局变量，表示当前的渲染模式。
+我们目前是 ssr 模式，如果当前是 csr 模式的话只需要返回一个空的 html 结构,然后向浏览器注入一个全局变量，表示当前的渲染模式。
 
-其他的css/js资源正常按照ssr下的模式直出即可
-
+其他的 css/js 资源正常按照 ssr 下的模式直出即可
 
 # 工程构建流程
 
-hot-module-replacement(热更新)保存react组件状态，避免程序刷新然后到初始状态，通过json的更新来改变,只有在开发状态需要开启热更新。
+hot-module-replacement(热更新)保存 react 组件状态，避免程序刷新然后到初始状态，通过 json 的更新来改变,只有在开发状态需要开启热更新。
 
 这是把开发服务器和渲染服务器集为一身的方式。
 
-webpack-dev-server开始启替换很简单，再plugins中使用 new webpack.NamedModulesPlugin(), new webpack.HotModuleReplacementPlugin()主要通过
+webpack-dev-server 开始启替换很简单，再 plugins 中使用 new webpack.NamedModulesPlugin(), new webpack.HotModuleReplacementPlugin()主要通过
 `webpack-dev-middleware`,
 webpack-hot-middleware ,
 webpack-hot-server-middleware ,
@@ -517,18 +516,16 @@ const { js, styles, scripts, stylesheets } = flushChunks(clientStats, {
 
 ```
 
-其他方式，也是react-router官网文档进行的
-[推荐](https://loadable-components.com/docs/getting-started/ )
-
-
+其他方式，也是 react-router 官网文档进行的
+[推荐](https://loadable-components.com/docs/getting-started/)
 
 ## 生产环境配置
 
 对应的应该拥有一个独立的生产环境配置文件
 设置环境变量，区分开发和生产环境
-压缩js css资源，体积更小，提高下载速度
-js分包，基础库和业务代码分别打包，可以提高缓存利用率,提高页面渲染效率，节省用户流量
-为打包的bundle名称配置hash值,这样有利于发布和资源缓存
+压缩 js css 资源，体积更小，提高下载速度
+js 分包，基础库和业务代码分别打包，可以提高缓存利用率,提高页面渲染效率，节省用户流量
+为打包的 bundle 名称配置 hash 值,这样有利于发布和资源缓存
 生成资源映射表，用于服务端使用
 有独立的发布命令
 可以在本机运行生产环境 server，方便本地调试
