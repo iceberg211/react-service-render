@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-
+const WebpackBar = require('webpackbar')
 const res = p => path.resolve(__dirname, p)
 
 const entry = res('../server/render.js')
@@ -46,6 +46,7 @@ module.exports = {
     extensions: ['.js', '.css', '.styl']
   },
   plugins: [
+    new WebpackBar(),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.LimitChunkCountPlugin({

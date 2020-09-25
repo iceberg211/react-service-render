@@ -3,10 +3,10 @@ import Layout from './compoents/sider';
 import { renderRoutes } from "react-router-config";
 
 
-const App = (props) => {
+const App = ({ route }) => {
   return (
-    <Layout>
-      {renderRoutes(props.route.routes)}
+    <Layout route={route}>
+      {renderRoutes(route.routes)}
     </Layout>
   );
 };

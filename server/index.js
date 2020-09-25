@@ -31,7 +31,16 @@ if (DEV) {
   const compiler = webpack([clientConfig, serverConfig]);
   // 客户端webpackCompiler
   const clientCompiler = compiler.compilers[0];
-  const options = { publicPath, stats: { colors: true } };
+  const options = {
+    publicPath,
+    stats: {
+      colors: true,
+      modules: false,
+      chunks: false,
+      chunkModules: false,
+    },
+    logLevel: 'error',
+  };
 
   // 使用中间件的形式去加载。
   const devMiddleware = webpackDevMiddleware(compiler, options);

@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 // here so you can see what chunks are built
+const WebpackBar = require('webpackbar');
 const WriteFilePlugin = require("write-file-webpack-plugin");
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 
@@ -62,6 +63,7 @@ module.exports = {
   plugins: [
     // new WriteFilePlugin(),
     new ExtractCssChunks(),
+    new WebpackBar(),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),

@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
+const WebpackBar = require('webpackbar')
 const WriteFilePlugin = require("write-file-webpack-plugin");
 
 const res = (p) => path.resolve(__dirname, p);
@@ -71,6 +72,7 @@ module.exports = {
   },
   plugins: [
     // new WriteFilePlugin(),
+    new WebpackBar(),
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),

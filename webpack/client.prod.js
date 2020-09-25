@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const WebpackBar = require('webpackbar')
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
@@ -46,6 +47,7 @@ module.exports = {
   },
   plugins: [
     new ExtractCssChunks(),
+    new WebpackBar(),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
